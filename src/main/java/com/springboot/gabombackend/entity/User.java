@@ -16,6 +16,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 이름
+    @Column(nullable = false)
+    private String username;
+
     //로그인 아이디
     @Column(name = "login_id", nullable = false, unique = true)
     private String loginId;
