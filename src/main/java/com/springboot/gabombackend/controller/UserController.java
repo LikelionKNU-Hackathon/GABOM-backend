@@ -2,11 +2,14 @@ package com.springboot.gabombackend.controller;
 
 import com.springboot.gabombackend.dto.CheckDuplicateResponse;
 import com.springboot.gabombackend.dto.LoginRequest;
+import com.springboot.gabombackend.dto.PasswordResetDtos;
 import com.springboot.gabombackend.dto.SignUpRequest;
 import com.springboot.gabombackend.entity.User;
 import com.springboot.gabombackend.jwt.JwtTokenUtil;
 import com.springboot.gabombackend.repository.UserRepository;
+import com.springboot.gabombackend.service.PasswordResetService;
 import com.springboot.gabombackend.service.UserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,7 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private final PasswordResetService passwordResetService;
 
     @Value("${springboot.jwt.secret}")
     private String secretKey;
@@ -74,7 +78,7 @@ public class UserController {
         ));
     }
 
-    // ✅ 로그인 API
+    // 로그인 API
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
         User user = userService.login(req);
@@ -108,4 +112,45 @@ public class UserController {
     public ResponseEntity<?> logout() {
         return ResponseEntity.noContent().build();
     }
+
+
+    @PostMapping("/find-id")
+    public ResponseEntity<?> findId(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        userService.findIdAndSendEmail(email);
+
+        // 항상 동일한 응답
+        return ResponseEntity.ok(Map.of(
+                "message", "입력한 이메일로 아이디 안내 메일을 발송했습니다."
+        ));
+    }
+
+    @PostMapping("/find-password")
+    public ResponseEntity<?> sendResetCode(@RequestBody PasswordResetDtos.EmailRequest request) {
+        passwordResetService.sendVerificationCode(request.getEmail());
+        return ResponseEntity.ok("코드가 전송되었습니다.");
+    }
+
+
+    @PostMapping("/verify-code")
+    public ResponseEntity<?> verifyCode(@RequestBody PasswordResetDtos.VerifyCodeRequest request) {
+        boolean success = passwordResetService.verifyCode(request.getEmail(), request.getCode());
+
+        if (success) {
+            return ResponseEntity.ok("인증 성공");
+        } else {
+            return ResponseEntity.badRequest().body("코드 불일치");
+        }
+    }
+
+    @PatchMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordResetDtos.ResetPasswordRequest request) {
+        boolean success = passwordResetService.resetPassword(request.getNewPassword());
+        if (success) {
+            return ResponseEntity.ok("비밀번호 변경 완료");
+        } else {
+            return ResponseEntity.badRequest().body("이메일 인증이 완료되지 않았습니다.");
+        }
+    }
+
 }

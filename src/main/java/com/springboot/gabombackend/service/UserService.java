@@ -15,6 +15,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MailService mailService;
+
+    public void findIdAndSendEmail(String email) {
+        userRepository.findByEmail(email)
+                .ifPresent(user -> mailService.sendIdReminder(email, user.getLoginId()));
+        // 존재하지 않아도 그냥 아무것도 안 함
+    }
 
     // 아이디 중복 여부
     public boolean existsLoginId(String loginId) {
@@ -50,4 +57,5 @@ public class UserService {
     public User getByLoginId(String loginId) {
         return userRepository.findByLoginId(loginId).orElse(null);
     }
+
 }

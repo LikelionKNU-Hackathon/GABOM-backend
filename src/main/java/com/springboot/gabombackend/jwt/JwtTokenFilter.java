@@ -27,6 +27,20 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        String requestURI = request.getRequestURI();
+
+        // JWT 검증 제외할 URL
+        if (requestURI.startsWith("/api/users/login") ||
+                (requestURI.startsWith("/api/users") && request.getMethod().equals("POST")) ||
+                requestURI.startsWith("/api/users/find-id") ||
+                requestURI.startsWith("/api/users/find-password") ||
+                requestURI.startsWith("/api/users/verify-code") ||
+                requestURI.startsWith("/api/users/reset-password")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         // Authorization 헤더가 없으면 통과
@@ -41,7 +55,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        // "Bearer " 뒤의 토큰만 추출
+        // "Bearer" 뒤의 토큰만 추출
         String token = authorizationHeader.split(" ")[1];
 
         // 토큰 만료면 통과
