@@ -93,9 +93,19 @@ public class UserController {
         userInfo.put("id", user.getLoginId());
         userInfo.put("nickname", user.getNickname());
 
-        return ResponseEntity.ok(Map.of(
-                "accessToken", token,
-                "user", userInfo
-        ));
+        return ResponseEntity.ok()
+                // 응답 헤더에도 토큰 추가
+                .header("Authorization", "Bearer " + token)
+                // 바디에도 그대로 내려주기
+                .body(Map.of(
+                        "accessToken", token,
+                        "user", userInfo
+                ));
+
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return ResponseEntity.noContent().build();
     }
 }

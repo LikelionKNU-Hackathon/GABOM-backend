@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,14 +26,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                // HTTP Basic 인증 비활성화
                 .httpBasic(httpBasic -> httpBasic.disable())
+                // CSRF 비활성화 (JWT 사용 시 필요 없음)
                 .csrf(csrf -> csrf.disable())
+                // 세션 사용 안 함 (STATELESS)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
+                // JWT 필터 등록
+                .addFilterBefore(new JwtTokenFilter(userService, secretKey),
+                        UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        // 회원가입/로그인/중복확인은 열어두기
-                        .requestMatchers("/api/users", "/api/users/login", "/api/users/check").permitAll()
-                        // (필요시) 나머지는 추후 보호
+                        // POST 요청: 회원가입, 로그인 -> 인증 없이 허용
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/users",
+                                "/api/users/login"
+                        ).permitAll()
+                        // POST 요청: 로그아웃 -> 인증 필요
+                        .requestMatchers(HttpMethod.POST, "/api/users/logout").authenticated()
+                        // GET 요청: 중복 확인 -> 인증 없이 허용
+                        .requestMatchers(HttpMethod.GET, "/api/users/check").permitAll()
+                        // 나머지 요청: 현재는 모두 허용 (추후 보호 필요시 변경)
                         .anyRequest().permitAll()
                 )
                 .build();
