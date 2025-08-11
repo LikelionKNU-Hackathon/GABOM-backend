@@ -9,7 +9,6 @@ import com.springboot.gabombackend.jwt.JwtTokenUtil;
 import com.springboot.gabombackend.repository.UserRepository;
 import com.springboot.gabombackend.service.PasswordResetService;
 import com.springboot.gabombackend.service.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class UserController {
     private String secretKey;
 
 
-    // ✅ 중복 체크 API
+    // 중복 체크 API
     @GetMapping("/check")
     public CheckDuplicateResponse checkDuplicate(@RequestParam String type, @RequestParam String value) {
         boolean duplicate = switch (type) {
@@ -48,7 +47,7 @@ public class UserController {
                 .build();
     }
 
-    // ✅ 회원가입 API
+    // 회원가입 API
     @PostMapping
     public ResponseEntity<?> signUp(@RequestBody SignUpRequest req) {
         if (userService.existsLoginId(req.getLoginId())) {
