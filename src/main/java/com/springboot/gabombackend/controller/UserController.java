@@ -29,7 +29,6 @@ public class UserController {
     @Value("${springboot.jwt.secret}")
     private String secretKey;
 
-
     // 중복 체크 API
     @GetMapping("/check")
     public CheckDuplicateResponse checkDuplicate(@RequestParam String type, @RequestParam String value) {
