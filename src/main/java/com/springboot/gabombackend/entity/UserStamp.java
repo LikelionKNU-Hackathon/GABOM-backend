@@ -24,7 +24,4 @@ public class UserStamp {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stamp_id", nullable = false)
     private Stamp stamp;
-
-    // 획득 날짜/시간 (누적 관리용)
-    private LocalDateTime acquiredAt;
 }
