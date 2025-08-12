@@ -2,6 +2,7 @@ package com.springboot.gabombackend.service;
 
 import com.springboot.gabombackend.dto.LoginRequest;
 import com.springboot.gabombackend.dto.SignUpRequest;
+import com.springboot.gabombackend.dto.mypagedto.UserUpdateDto;
 import com.springboot.gabombackend.entity.User;
 import com.springboot.gabombackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class UserService {
         return userRepository.existsByNickname(nickname);
     }
 
-    // 회원가입: DTO -> 암호화 -> 저장 -> 생성된 PK 반환
+    // 회원가입
     @Transactional
     public Long signUp(SignUpRequest req) {
         String encodedPw = passwordEncoder.encode(req.getPassword());
@@ -46,16 +47,38 @@ public class UserService {
         return saved.getId();
     }
 
-    // 로그인: loginId로 조회 -> 비밀번호 검증 -> 성공 시 User 반환, 실패 시 null
+    // 로그인
     public User login(LoginRequest req) {
         return userRepository.findByLoginId(req.getLoginId())
                 .filter(u -> passwordEncoder.matches(req.getPassword(), u.getPassword()))
                 .orElse(null);
     }
 
-    // loginId로 사용자 조회 (JWT 필터 등에서 사용)
+    // loginId로 사용자 조회
     public User getByLoginId(String loginId) {
         return userRepository.findByLoginId(loginId).orElse(null);
     }
 
+    // 마이페이지 정보 수정
+    @Transactional
+    public User updateUser(String loginId, UserUpdateDto dto) {
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        if (dto.getUsername() != null && !dto.getUsername().isBlank()) {
+            user.setUsername(dto.getUsername());
+        }
+        if (dto.getEmail() != null && !dto.getEmail().isBlank()) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getNickname() != null && !dto.getNickname().isBlank()) {
+            user.setNickname(dto.getNickname());
+        }
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            String encodedPw = passwordEncoder.encode(dto.getPassword());
+            user.setPassword(encodedPw);
+        }
+
+        return userRepository.save(user);
+    }
 }

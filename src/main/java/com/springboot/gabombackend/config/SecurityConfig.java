@@ -45,6 +45,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/users/logout").authenticated()
                         // GET 요청: 중복 확인 -> 인증 없이 허용
                         .requestMatchers(HttpMethod.GET, "/api/users/check").permitAll()
+                        // 마이페이지 관련 -> 인증 필요
+                        .requestMatchers("/api/users/me").authenticated()
                         // 나머지 요청: 현재는 모두 허용 (추후 보호 필요시 변경)
                         .anyRequest().permitAll()
                 )
