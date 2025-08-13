@@ -38,3 +38,33 @@ INSERT INTO stamps (name, category, image_url) VALUES
                                                    ('western_1', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_1.png'),
                                                    ('western_2', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_2.png'),
                                                    ('western_3', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_3.png');
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('분식', '분식 요정', '분식 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('일식', '일식愛 빠진 자', '일식 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('중식', '중국집 단골왕', '중식 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('한식', '한식의 품격', '한식 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('양식', '이탈리아 맛피아', '양식 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('호프/술집', '오늘도 한잔러', '호프/술집 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('카페/디저트', '당충전 전문가', '카페/디저트 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('오락', '오락실 지박령', '오락 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('편의시설', '생활밀착왕', '편의시설 10회 방문하기', 10);
+
+INSERT INTO titles (category, name, description, goal_count)
+VALUES ('아시안', '향신료 정복자', '아시안 10회 방문하기', 10);
