@@ -27,4 +27,10 @@ public class UserStamp {
 
     @Column(nullable = false)
     private int count;
+
+    public UserStamp(User user, Stamp stamp, int count) {
+        this.user = user;
+        this.stamp = stamp;
+        this.count = count;
+    }
 }
