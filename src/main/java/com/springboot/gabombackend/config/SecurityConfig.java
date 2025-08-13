@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/users/check").permitAll()
                         // 마이페이지 관련 -> 인증 필요
                         .requestMatchers("/api/users/me").authenticated()
+                        .requestMatchers("/api/user/stamps").authenticated()
                         // 나머지 요청: 현재는 모두 허용 (추후 보호 필요시 변경)
                         .anyRequest().permitAll()
                 )

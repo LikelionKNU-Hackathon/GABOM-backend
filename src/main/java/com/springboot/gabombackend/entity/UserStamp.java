@@ -24,4 +24,7 @@ public class UserStamp {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stamp_id", nullable = false)
     private Stamp stamp;
+
+    @Column(nullable = false)
+    private int count;
 }
