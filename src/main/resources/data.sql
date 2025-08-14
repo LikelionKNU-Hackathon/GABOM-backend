@@ -68,3 +68,23 @@ VALUES ('편의시설', '생활밀착왕', '편의시설 10회 방문하기', 10
 
 INSERT INTO titles (category, name, description, goal_count)
 VALUES ('아시안', '향신료 정복자', '아시안 10회 방문하기', 10);
+
+
+INSERT INTO journal_cases (name, category, image_url) VALUES
+                                                          ('Animal 1', '동물', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/animal_1.png'),
+                                                          ('Animal 2', '동물', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/animal_2.png'),
+                                                          ('Animal 3', '동물', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/animal_3.png'),
+
+
+                                                          ('Spring 1', '벚꽃', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/spring_1.png'),
+                                                          ('Spring 2', '벚꽃', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/spring_2.png'),
+
+
+                                                          ('Pattern 1', '패턴', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/pattern_1.png'),
+                                                          ('Pattern 2', '패턴', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/pattern_2.png'),
+                                                          ('Pattern 3', '패턴', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/pattern_3.png'),
+
+
+                                                          ('Summer 1', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_1.png'),
+                                                          ('Summer 2', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_2.png'),
+                                                          ('Summer 3', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_3.png');

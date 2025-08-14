@@ -53,6 +53,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/users/me/titles/**").permitAll()
                         // 티어
                         .requestMatchers("/api/users/me/tiers").authenticated()
+                        // 케이스
+                        .requestMatchers(HttpMethod.GET, "/api/journal/cases").authenticated()
                         // 나머지 요청: 현재는 모두 허용 (추후 보호 필요시 변경)
                         .anyRequest().permitAll()
                 )
