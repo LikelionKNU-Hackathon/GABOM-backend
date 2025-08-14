@@ -1,3 +1,4 @@
+-- 스탬프 데이터
 INSERT INTO stamps (name, category, image_url) VALUES
                                                    ('asia_1', 'asia', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_1.png'),
                                                    ('asia_2', 'asia', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_2.png'),
@@ -39,51 +40,31 @@ INSERT INTO stamps (name, category, image_url) VALUES
                                                    ('western_2', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_2.png'),
                                                    ('western_3', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_3.png');
 
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('분식', '분식 요정', '분식 10회 방문하기', 10);
+-- 칭호 데이터
+INSERT INTO titles (category, name, description, goal_count) VALUES
+                                                                 ('분식', '분식 요정', '분식 10회 방문하기', 10),
+                                                                 ('일식', '일식愛 빠진 자', '일식 10회 방문하기', 10),
+                                                                 ('중식', '중국집 단골왕', '중식 10회 방문하기', 10),
+                                                                 ('한식', '한식의 품격', '한식 10회 방문하기', 10),
+                                                                 ('양식', '이탈리아 맛피아', '양식 10회 방문하기', 10),
+                                                                 ('호프/술집', '오늘도 한잔러', '호프/술집 10회 방문하기', 10),
+                                                                 ('카페/디저트', '당충전 전문가', '카페/디저트 10회 방문하기', 10),
+                                                                 ('오락', '오락실 지박령', '오락 10회 방문하기', 10),
+                                                                 ('편의시설', '생활밀착왕', '편의시설 10회 방문하기', 10),
+                                                                 ('아시안', '향신료 정복자', '아시안 10회 방문하기', 10);
 
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('일식', '일식愛 빠진 자', '일식 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('중식', '중국집 단골왕', '중식 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('한식', '한식의 품격', '한식 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('양식', '이탈리아 맛피아', '양식 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('호프/술집', '오늘도 한잔러', '호프/술집 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('카페/디저트', '당충전 전문가', '카페/디저트 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('오락', '오락실 지박령', '오락 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('편의시설', '생활밀착왕', '편의시설 10회 방문하기', 10);
-
-INSERT INTO titles (category, name, description, goal_count)
-VALUES ('아시안', '향신료 정복자', '아시안 10회 방문하기', 10);
-
-
+-- 저널 케이스 데이터
 INSERT INTO journal_cases (name, category, image_url) VALUES
                                                           ('Animal 1', '동물', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/animal_1.png'),
                                                           ('Animal 2', '동물', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/animal_2.png'),
                                                           ('Animal 3', '동물', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/animal_3.png'),
 
-
                                                           ('Spring 1', '벚꽃', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/spring_1.png'),
                                                           ('Spring 2', '벚꽃', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/spring_2.png'),
-
 
                                                           ('Pattern 1', '패턴', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/pattern_1.png'),
                                                           ('Pattern 2', '패턴', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/pattern_2.png'),
                                                           ('Pattern 3', '패턴', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/pattern_3.png'),
-
 
                                                           ('Summer 1', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_1.png'),
                                                           ('Summer 2', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_2.png'),
