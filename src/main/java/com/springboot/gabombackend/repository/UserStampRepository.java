@@ -22,4 +22,7 @@ public interface UserStampRepository extends JpaRepository<UserStamp, Long> {
     List<UserStampResponse> findUserStampsWithSum(@Param("userId") Long userId);
 
     Optional<UserStamp> findByUserAndStamp(User user, Stamp stamp);
+
+    @Query("SELECT COALESCE(SUM(us.count), 0) FROM UserStamp us WHERE us.user.id = :userId")
+    int sumStampCountByUser(Long userId);
 }
