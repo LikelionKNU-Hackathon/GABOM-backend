@@ -55,6 +55,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/me/tiers").authenticated()
                         // 케이스
                         .requestMatchers(HttpMethod.GET, "/api/journal/cases").authenticated()
+                        // 랭킹
+                        .requestMatchers(HttpMethod.GET, "/api/rankings").authenticated()
                         // 나머지 요청: 현재는 모두 허용 (추후 보호 필요시 변경)
                         .anyRequest().permitAll()
                 )
