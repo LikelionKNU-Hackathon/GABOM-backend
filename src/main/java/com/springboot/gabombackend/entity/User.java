@@ -2,6 +2,8 @@ package com.springboot.gabombackend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,7 +22,7 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-    //로그인 아이디
+    // 로그인 아이디
     @Column(name = "login_id", nullable = false, unique = true)
     private String loginId;
 
@@ -35,4 +37,8 @@ public class User {
     // 비밀번호
     @Column(nullable = false)
     private String password;
+
+    // 유저가 가진 스탬프들 (양방향 매핑)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserStamp> userStamps = new ArrayList<>();
 }
