@@ -1,7 +1,7 @@
 package com.springboot.gabombackend.config;
 
-import com.springboot.gabombackend.jwt.JwtTokenFilter;
-import com.springboot.gabombackend.service.UserService;
+import com.springboot.gabombackend.auth.JwtTokenFilter;
+import com.springboot.gabombackend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
