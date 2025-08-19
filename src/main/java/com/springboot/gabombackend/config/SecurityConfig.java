@@ -60,6 +60,8 @@ public class SecurityConfig {
                         // QR, 스탬프 적립
                         .requestMatchers(HttpMethod.POST, "/api/visits/verify").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/stamps").authenticated()
+                        // 가게 검색
+                        .requestMatchers("/api/stores/**").authenticated()
                         // 나머지 요청: 현재는 모두 허용 (추후 보호 필요시 변경)
                         .anyRequest().permitAll()
                 )
