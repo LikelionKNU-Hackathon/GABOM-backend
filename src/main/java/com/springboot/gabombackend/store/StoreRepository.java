@@ -1,6 +1,5 @@
 package com.springboot.gabombackend.store;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +17,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "   OR LOWER(s.category) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "   OR LOWER(s.address) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Store> searchByKeyword(@Param("keyword") String keyword);
+
+    // 전체 매장에서 랜덤 1개
+    @Query(value = "SELECT * FROM stores ORDER BY RAND() LIMIT 1", nativeQuery = true)
+    Optional<Store> findRandom();
+
+    // 특정 카테고리에서 랜덤 1개
+    @Query(value = "SELECT * FROM stores WHERE category = :category ORDER BY RAND() LIMIT 1", nativeQuery = true)
+    Optional<Store> findRandomByCategory(@Param("category") String category);
 }

@@ -38,5 +38,4 @@ public interface UserStampRepository extends JpaRepository<UserStamp, Long> {
             "WHERE us.user.id = :userId AND s.category = :category")
     int sumByUserAndCategory(@Param("userId") Long userId,
                              @Param("category") String category);
-
 }
