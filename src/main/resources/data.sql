@@ -1,44 +1,54 @@
--- 스탬프 데이터
 INSERT INTO stamps (name, category, image_url) VALUES
-                                                   ('asia_1', 'asia', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_1.png'),
-                                                   ('asia_2', 'asia', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_2.png'),
-                                                   ('asia_3', 'asia', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_3.png'),
+                                                   -- 분식
+                                                   ('bunsik_1', '분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_1.png'),
+                                                   ('bunsik_2', '분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_2.png'),
+                                                   ('bunsik_3', '분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_3.png'),
 
-                                                   ('bunsik_1', 'bunsik', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_1.png'),
-                                                   ('bunsik_2', 'bunsik', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_2.png'),
-                                                   ('bunsik_3', 'bunsik', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_3.png'),
+                                                   -- 일식
+                                                   ('japan_1', '일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_1.png'),
+                                                   ('japan_2', '일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_2.png'),
+                                                   ('japan_3', '일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_3.png'),
 
-                                                   ('cafe_1', 'cafe', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_1.png'),
-                                                   ('cafe_2', 'cafe', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_2.png'),
-                                                   ('cafe_3', 'cafe', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_3.png'),
+                                                   -- 중식
+                                                   ('china_1', '중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_1.png'),
+                                                   ('china_2', '중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_2.png'),
+                                                   ('china_3', '중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_3.png'),
 
-                                                   ('china_1', 'china', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_1.png'),
-                                                   ('china_2', 'china', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_2.png'),
-                                                   ('china_3', 'china', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_3.png'),
+                                                   -- 한식
+                                                   ('korea_1', '한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_1.png'),
+                                                   ('korea_2', '한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_2.png'),
+                                                   ('korea_3', '한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_3.png'),
 
-                                                   ('game_1', 'game', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_1.png'),
-                                                   ('game_2', 'game', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_2.png'),
-                                                   ('game_3', 'game', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_3.png'),
+                                                   -- 양식
+                                                   ('western_1', '양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_1.png'),
+                                                   ('western_2', '양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_2.png'),
+                                                   ('western_3', '양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_3.png'),
 
-                                                   ('japan_1', 'japan', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_1.png'),
-                                                   ('japan_2', 'japan', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_2.png'),
-                                                   ('japan_3', 'japan', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_3.png'),
+                                                   -- 호프/술집
+                                                   ('pub_1', '요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_1.png'),
+                                                   ('pub_2', '요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_2.png'),
+                                                   ('pub_3', '요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_3.png'),
 
-                                                   ('korea_1', 'korea', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_1.png'),
-                                                   ('korea_2', 'korea', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_2.png'),
-                                                   ('korea_3', 'korea', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_3.png'),
+                                                   -- 카페/디저트
+                                                   ('cafe_1', '디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_1.png'),
+                                                   ('cafe_2', '디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_2.png'),
+                                                   ('cafe_3', '디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_3.png'),
 
-                                                   ('pub_1', 'pub', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_1.png'),
-                                                   ('pub_2', 'pub', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_2.png'),
-                                                   ('pub_3', 'pub', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_3.png'),
+                                                   -- 오락
+                                                   ('game_1', '오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_1.png'),
+                                                   ('game_2', '오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_2.png'),
+                                                   ('game_3', '오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_3.png'),
 
-                                                   ('service_1', 'service', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_1.png'),
-                                                   ('service_2', 'service', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_2.png'),
-                                                   ('service_3', 'service', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_3.png'),
+                                                   -- 편의시설
+                                                   ('service_1', '편의시설', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_1.png'),
+                                                   ('service_2', '편의시설', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_2.png'),
+                                                   ('service_3', '편의시설', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_3.png'),
 
-                                                   ('western_1', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_1.png'),
-                                                   ('western_2', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_2.png'),
-                                                   ('western_3', 'western', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_3.png');
+                                                   -- 아시안
+                                                   ('asia_1', '아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_1.png'),
+                                                   ('asia_2', '아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_2.png'),
+                                                   ('asia_3', '아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_3.png');
+
 
 -- 칭호 데이터
 INSERT INTO titles (category, name, description, goal_count) VALUES
@@ -47,8 +57,8 @@ INSERT INTO titles (category, name, description, goal_count) VALUES
                                                                  ('중식', '중국집 단골왕', '중식 10회 방문하기', 10),
                                                                  ('한식', '한식의 품격', '한식 10회 방문하기', 10),
                                                                  ('양식', '이탈리아 맛피아', '양식 10회 방문하기', 10),
-                                                                 ('호프/술집', '오늘도 한잔러', '호프/술집 10회 방문하기', 10),
-                                                                 ('카페/디저트', '당충전 전문가', '카페/디저트 10회 방문하기', 10),
+                                                                 ('요리주점', '오늘도 한잔러', '호프/술집 10회 방문하기', 10),
+                                                                 ('디저트', '당충전 전문가', '카페/디저트 10회 방문하기', 10),
                                                                  ('오락', '오락실 지박령', '오락 10회 방문하기', 10),
                                                                  ('편의시설', '생활밀착왕', '편의시설 10회 방문하기', 10),
                                                                  ('아시안', '향신료 정복자', '아시안 10회 방문하기', 10);
@@ -83,7 +93,7 @@ INSERT INTO stores (name, address, category, opening_hours, latitude, longitude)
 -- 주점/호프
 ('라파즈', '경기 용인시 기흥구 강남로 12 스카이프라자 201·202호', '요리주점', '매일 17:00 ~ 03:00', 37.271107, 127.127487),
 ('다복상회', '경기 용인시 기흥구 강남로 3 105호', '요리주점', '17:00 ~ 01:00 (라스트오더 00:30)', 37.271279, 127.126246),
-('친구포차', '경기 용인시 기흥구 강남동로 12 103호', '포장마차', '13:00 ~ 02:00 (라스트오더 00:30)', 37.270934, 127.127865),
+('친구포차', '경기 용인시 기흥구 강남동로 12 103호', '요리주점', '13:00 ~ 02:00 (라스트오더 00:30)', 37.270934, 127.127865),
 
 -- 디저트
 ('지니엄', '경기 용인시 기흥구 강남서로75번길 2-8 파크빌 103호', '디저트', '10:00 ~ 17:50 (일·월 휴무)', 37.278384, 127.130253),
@@ -111,9 +121,9 @@ INSERT INTO stores (name, address, category, opening_hours, latitude, longitude)
 ('한성양꼬치', '경기 용인시 기흥구 강남로 13 한성양꼬치 116호', '중식', '14:00 ~ 24:00', 37.271845, 127.127048),
 
 -- 편의시설
-('카이정헤어 용인 강남대점', '경기 용인시 기흥구 강남동로 6 그랜드프라자 2층', '미용실', '매일 10:00 ~ 20:00', 37.271579, 127.127885),
-('위시엔조이 셀프빨래방 용인 강남대점', '경기 용인시 기흥구 갈곡로8번길 4-17', '셀프빨래방', '24시간 영업', 37.270963, 127.130490),
-('다이소 용인강남대점', '경기 용인시 기흥구 강남로 7 203, 204호', '종합생활용품', '매일 09:30 ~ 22:00', 37.271479, 127.126637),
+('카이정헤어 용인 강남대점', '경기 용인시 기흥구 강남동로 6 그랜드프라자 2층', '편의시설', '매일 10:00 ~ 20:00', 37.271579, 127.127885),
+('위시엔조이 셀프빨래방 용인 강남대점', '경기 용인시 기흥구 갈곡로8번길 4-17', '편의시설', '24시간 영업', 37.270963, 127.130490),
+('다이소 용인강남대점', '경기 용인시 기흥구 강남로 7 203, 204호', '편의시설', '매일 09:30 ~ 22:00', 37.271479, 127.126637),
 
 -- 일식
 ('연정', '경기 용인시 기흥구 강남동로 14 강남대 팰리스뷰오피스텔 1층 102호', '일식', '09:30 ~ 22:00 (브레이크 14:30~15:30, 일 휴무)', 37.270597, 127.127678),
