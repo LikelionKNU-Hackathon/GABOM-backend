@@ -31,4 +31,12 @@ public interface UserStampRepository extends JpaRepository<UserStamp, Long> {
             "FROM UserStamp us " +
             "WHERE us.user.id = :userId")
     int sumStampCountByUser(@Param("userId") Long userId);
+
+    @Query("SELECT COALESCE(SUM(us.count), 0) " +
+            "FROM UserStamp us " +
+            "JOIN us.stamp s " +
+            "WHERE us.user.id = :userId AND s.category = :category")
+    int sumByUserAndCategory(@Param("userId") Long userId,
+                             @Param("category") String category);
+
 }

@@ -1,64 +1,66 @@
-INSERT INTO stamps (category, image_url, name) VALUES
--- 분식
-('분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_1.png', '분식 스탬프1'),
-('분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_2.png', '분식 스탬프2'),
-('분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_3.png', '분식 스탬프3'),
+INSERT INTO stamps (name, category, image_url) VALUES
+                                                   -- 분식
+                                                   ('bunsik_1', '분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_1.png'),
+                                                   ('bunsik_2', '분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_2.png'),
+                                                   ('bunsik_3', '분식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/bunsik_3.png'),
 
--- 한식
-('한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_1.png', '한식 스탬프1'),
-('한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_2.png', '한식 스탬프2'),
-('한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_3.png', '한식 스탬프3'),
+                                                   -- 일식
+                                                   ('japan_1', '일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_1.png'),
+                                                   ('japan_2', '일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_2.png'),
+                                                   ('japan_3', '일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_3.png'),
 
--- 요리주점
-('요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_1.png', '요리주점 스탬프1'),
-('요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_2.png', '요리주점 스탬프2'),
-('요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_3.png', '요리주점 스탬프3'),
+                                                   -- 중식
+                                                   ('china_1', '중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_1.png'),
+                                                   ('china_2', '중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_2.png'),
+                                                   ('china_3', '중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_3.png'),
 
--- 디저트
-('디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_1.png', '디저트 스탬프1'),
-('디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_2.png', '디저트 스탬프2'),
-('디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_3.png', '디저트 스탬프3'),
+                                                   -- 한식
+                                                   ('korea_1', '한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_1.png'),
+                                                   ('korea_2', '한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_2.png'),
+                                                   ('korea_3', '한식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/korea_3.png'),
 
--- 오락
-('오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_1.png', '오락 스탬프1'),
-('오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_2.png', '오락 스탬프2'),
-('오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_3.png', '오락 스탬프3'),
+                                                   -- 양식
+                                                   ('western_1', '양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_1.png'),
+                                                   ('western_2', '양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_2.png'),
+                                                   ('western_3', '양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_3.png'),
 
--- 아시안
-('아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_1.png', '아시안 스탬프1'),
-('아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_2.png', '아시안 스탬프2'),
-('아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_3.png', '아시안 스탬프3'),
+                                                   -- 호프/술집
+                                                   ('pub_1', '요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_1.png'),
+                                                   ('pub_2', '요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_2.png'),
+                                                   ('pub_3', '요리주점', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/pub_3.png'),
 
--- 양식
-('양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_1.png', '양식 스탬프1'),
-('양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_2.png', '양식 스탬프2'),
-('양식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/western_3.png', '양식 스탬프3'),
+                                                   -- 카페/디저트
+                                                   ('cafe_1', '디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_1.png'),
+                                                   ('cafe_2', '디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_2.png'),
+                                                   ('cafe_3', '디저트', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/cafe_3.png'),
 
--- 중식
-('중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_1.png', '중식 스탬프1'),
-('중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_2.png', '중식 스탬프2'),
-('중식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/china_3.png', '중식 스탬프3'),
+                                                   -- 오락
+                                                   ('game_1', '오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_1.png'),
+                                                   ('game_2', '오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_2.png'),
+                                                   ('game_3', '오락', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/game_3.png'),
 
--- 일식
-('일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_1.png', '일식 스탬프1'),
-('일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_2.png', '일식 스탬프2'),
-('일식', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/japan_3.png', '일식 스탬프3'),
+                                                   -- 편의시설
+                                                   ('service_1', '편의시설', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_1.png'),
+                                                   ('service_2', '편의시설', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_2.png'),
+                                                   ('service_3', '편의시설', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_3.png'),
 
--- 서비스
-('서비스', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_1.png', '서비스 스탬프1'),
-('서비스', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_2.png', '서비스 스탬프2'),
-('서비스', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/service_3.png', '서비스 스탬프3');
+                                                   -- 아시안
+                                                   ('asia_1', '아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_1.png'),
+                                                   ('asia_2', '아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_2.png'),
+                                                   ('asia_3', '아시안', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/stamps/asia_3.png');
 
+
+-- 칭호 데이터
 INSERT INTO titles (category, name, description, goal_count) VALUES
                                                                  ('분식', '분식 요정', '분식 10회 방문하기', 10),
                                                                  ('일식', '일식愛 빠진 자', '일식 10회 방문하기', 10),
                                                                  ('중식', '중국집 단골왕', '중식 10회 방문하기', 10),
                                                                  ('한식', '한식의 품격', '한식 10회 방문하기', 10),
                                                                  ('양식', '이탈리아 맛피아', '양식 10회 방문하기', 10),
-                                                                 ('요리주점', '오늘도 한잔러', '요리주점 10회 방문하기', 10),
-                                                                 ('디저트', '당충전 전문가', '디저트 10회 방문하기', 10),
+                                                                 ('요리주점', '오늘도 한잔러', '호프/술집 10회 방문하기', 10),
+                                                                 ('디저트', '당충전 전문가', '카페/디저트 10회 방문하기', 10),
                                                                  ('오락', '오락실 지박령', '오락 10회 방문하기', 10),
-                                                                 ('서비스', '생활밀착왕', '서비스 10회 방문하기', 10),
+                                                                 ('편의시설', '생활밀착왕', '편의시설 10회 방문하기', 10),
                                                                  ('아시안', '향신료 정복자', '아시안 10회 방문하기', 10);
 
 -- 저널 케이스 데이터
@@ -77,7 +79,6 @@ INSERT INTO journal_cases (name, category, image_url) VALUES
                                                           ('Summer 1', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_1.png'),
                                                           ('Summer 2', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_2.png'),
                                                           ('Summer 3', '여름', 'https://gabom-stamps.s3.ap-northeast-2.amazonaws.com/case/summer_3.png');
-
 INSERT INTO stores (name, address, category, opening_hours, latitude, longitude) VALUES
 -- 분식
 ('The 진분식', '경기 용인시 기흥구 동백죽전대로527번길 100-3 (중동 1110-10)', '분식', '10:00 ~ 18:00', 37.280786, 127.143401),
@@ -89,7 +90,7 @@ INSERT INTO stores (name, address, category, opening_hours, latitude, longitude)
 ('공세로 분식', '경기 용인시 기흥구 공세로 243 (공세동 394-9)', '한식', '화~토 11:00 ~ 21:00 (휴게 15:30~17:00)', 37.242103, 127.103425),
 ('죽전로 분식', '경기 용인시 기흥구 죽전로43번길 11-10 1층 (보정동 1203-10)', '한식', '화~일 11:30 ~ 21:30 (휴게 15:30~17:00)', 37.321275, 127.112491),
 
--- 요리주점
+-- 주점/호프
 ('라파즈', '경기 용인시 기흥구 강남로 12 스카이프라자 201·202호', '요리주점', '매일 17:00 ~ 03:00', 37.271107, 127.127487),
 ('다복상회', '경기 용인시 기흥구 강남로 3 105호', '요리주점', '17:00 ~ 01:00 (라스트오더 00:30)', 37.271279, 127.126246),
 ('친구포차', '경기 용인시 기흥구 강남동로 12 103호', '요리주점', '13:00 ~ 02:00 (라스트오더 00:30)', 37.270934, 127.127865),
@@ -119,10 +120,10 @@ INSERT INTO stores (name, address, category, opening_hours, latitude, longitude)
 ('남경', '경기 용인시 기흥구 갈곡로8번길 4-3 사랑하는교회', '중식', '09:30 ~ 21:30', 37.271584, 127.129443),
 ('한성양꼬치', '경기 용인시 기흥구 강남로 13 한성양꼬치 116호', '중식', '14:00 ~ 24:00', 37.271845, 127.127048),
 
--- 서비스
-('카이정헤어 용인 강남대점', '경기 용인시 기흥구 강남동로 6 그랜드프라자 2층', '서비스', '매일 10:00 ~ 20:00', 37.271579, 127.127885),
-('위시엔조이 셀프빨래방 용인 강남대점', '경기 용인시 기흥구 갈곡로8번길 4-17', '서비스', '24시간 영업', 37.270963, 127.130490),
-('다이소 용인강남대점', '경기 용인시 기흥구 강남로 7 203, 204호', '서비스', '매일 09:30 ~ 22:00', 37.271479, 127.126637),
+-- 편의시설
+('카이정헤어 용인 강남대점', '경기 용인시 기흥구 강남동로 6 그랜드프라자 2층', '편의시설', '매일 10:00 ~ 20:00', 37.271579, 127.127885),
+('위시엔조이 셀프빨래방 용인 강남대점', '경기 용인시 기흥구 갈곡로8번길 4-17', '편의시설', '24시간 영업', 37.270963, 127.130490),
+('다이소 용인강남대점', '경기 용인시 기흥구 강남로 7 203, 204호', '편의시설', '매일 09:30 ~ 22:00', 37.271479, 127.126637),
 
 -- 일식
 ('연정', '경기 용인시 기흥구 강남동로 14 강남대 팰리스뷰오피스텔 1층 102호', '일식', '09:30 ~ 22:00 (브레이크 14:30~15:30, 일 휴무)', 37.270597, 127.127678),

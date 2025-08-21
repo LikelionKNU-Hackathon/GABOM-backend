@@ -15,17 +15,15 @@ public class TitleController {
 
     private final UserTitleService userTitleService;
 
-    // 칭호 목록 조회
     @GetMapping
-    public List<UserTitleResponse> getMyTitles(@AuthenticationPrincipal User user) {
-        return userTitleService.getMyTitles(user);
+    public List<UserTitleResponse> getMyTitles(@AuthenticationPrincipal Long userId) {
+        return userTitleService.getMyTitles(userId);
     }
 
-    // 대표 칭호 설정
     @PatchMapping("/{titleId}")
-    public String setRepresentativeTitle(@AuthenticationPrincipal User user,
+    public String setRepresentativeTitle(@AuthenticationPrincipal Long userId,
                                          @PathVariable Long titleId) {
-        userTitleService.setRepresentativeTitle(user, titleId);
+        userTitleService.setRepresentativeTitle(userId, titleId);
         return "대표 칭호가 설정되었습니다.";
     }
 }
