@@ -13,9 +13,6 @@ public class ChatbotService {
     private final StoreRepository storeRepository;
     private final GptClient gptClient;
 
-    // 세션별 대화 기록 저장 (메모리)
-    private final Map<String, List<Map<String, String>>> sessionHistories = new HashMap<>();
-
     // 고정된 10개 카테고리
     private static final List<String> CATEGORIES = List.of(
             "분식", "한식", "중식", "일식", "양식",
@@ -39,9 +36,9 @@ public class ChatbotService {
                 .orElse(null);
     }
 
-    public String getChatbotReply(String sessionId, Long userId, String userMessage) {
-        // 세션별 history 가져오기
-        List<Map<String, String>> history = sessionHistories.computeIfAbsent(sessionId, k -> new ArrayList<>());
+    public String getChatbotReply(Long userId, String userMessage) {
+        // 유저별 history 가져오기
+        List<Map<String, String>> history = ChatMemory.getMessages(userId);
 
         // GPT로 intent 분류
         String intent = gptClient.classifyIntent(userMessage);
@@ -67,31 +64,31 @@ public class ChatbotService {
                     + String.join(", ", CATEGORIES)
                     + " 이렇게 10가지예요!";
         }
-        // 스몰토크 처리 → 별도 메서드로 (히스토리 기록 안 해도 됨)
+        // 스몰토크 처리
         else if ("SMALL_TALK".equalsIgnoreCase(intent)) {
             String reply = gptClient.generateSmallTalk(userId, userMessage);
-            history.add(Map.of("role", "user", "content", userMessage));
-            history.add(Map.of("role", "assistant", "content", reply));
+            ChatMemory.addMessage(userId, "user", userMessage);
+            ChatMemory.addMessage(userId, "assistant", reply);
             return reply;
         }
 
         // DB 결과 없으면 fallback
         if (dbResult == null || dbResult.isBlank()) {
             String fallback = FALLBACK_MESSAGES.get((int) (Math.random() * FALLBACK_MESSAGES.size()));
-            history.add(Map.of("role", "user", "content", userMessage));
-            history.add(Map.of("role", "assistant", "content", fallback));
+            ChatMemory.addMessage(userId, "user", userMessage);
+            ChatMemory.addMessage(userId, "assistant", fallback);
             return fallback;
         }
 
         // 히스토리 업데이트 (DB 결과도 context에 포함)
-        history.add(Map.of("role", "user", "content", userMessage));
-        history.add(Map.of("role", "system", "content", "DB 조회 결과:\n" + dbResult));
+        ChatMemory.addMessage(userId, "user", userMessage);
+        ChatMemory.addMessage(userId, "system", "DB 조회 결과:\n" + dbResult);
 
         // GPT 호출 (히스토리 전체 전달)
         String reply = gptClient.callWithHistory(history);
 
         // 응답 기록
-        history.add(Map.of("role", "assistant", "content", reply));
+        ChatMemory.addMessage(userId, "assistant", reply);
 
         return reply;
     }

@@ -36,23 +36,6 @@ public class GptClient {
         return callGpt(systemPrompt, userMessage);
     }
 
-    public String generateReply(Long userId, String userMessage, String dbResult) {
-        String systemPrompt = """
-            너는 가봄 서비스의 AI 챗봇이다.
-            - 기본적으로는 DB 조회 결과만 사용해서 짧고 친근하게 대답한다.
-            - 대화를 너무 길게 끌지 말고, 음식점 추천이나 10개 카테고리 안내로 유도한다.
-            - DB 결과가 없거나 부적절하면 
-              "추천할 수 있는 카테고리는 10가지뿐이에요 😅" 또는
-              "저는 맛집 추천만 도와드려요 😊" 라고만 답한다.
-        """;
-
-        String dbInfo = (dbResult == null || dbResult.isBlank())
-                ? "DB 조회 결과가 없음"
-                : "DB 조회 결과:\n" + dbResult;
-
-        return callGpt(systemPrompt, dbInfo + "\n\n사용자 질문: " + userMessage);
-    }
-
     public String generateSmallTalk(Long userId, String userMessage) {
         String systemPrompt = """
             너는 가봄 서비스의 AI 챗봇이다.
@@ -85,7 +68,7 @@ public class GptClient {
         return message.get("content").toString().trim();
     }
 
-    // 기존 단일 호출
+    // 단일 호출
     private String callGpt(String systemPrompt, String userMessage) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

@@ -19,10 +19,9 @@ public class ChatController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = (Long) authentication.getPrincipal();
 
-        String sessionId = request.get("sessionId").toString();
         String userMessage = request.get("message").toString();
 
-        String gptResponse = chatbotService.getChatbotReply(sessionId, userId, userMessage);
+        String gptResponse = chatbotService.getChatbotReply(userId, userMessage);
         return Map.of("response", gptResponse);
     }
 }
