@@ -1,6 +1,8 @@
 package com.springboot.gabombackend.chatbot;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -14,8 +16,10 @@ public class ChatController {
 
     @PostMapping
     public Map<String, String> chat(@RequestBody Map<String, Object> request) {
-        String sessionId = request.get("sessionId").toString(); // 프론트에서 넘겨주는 세션ID
-        Long userId = Long.valueOf(request.get("userId").toString());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = (Long) authentication.getPrincipal();
+
+        String sessionId = request.get("sessionId").toString();
         String userMessage = request.get("message").toString();
 
         String gptResponse = chatbotService.getChatbotReply(sessionId, userId, userMessage);
