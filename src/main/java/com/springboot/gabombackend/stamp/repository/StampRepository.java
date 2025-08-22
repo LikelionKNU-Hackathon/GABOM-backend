@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface StampRepository extends JpaRepository<Stamp, Long> {
     List<Stamp> findByCategory(String category);
     Optional<Stamp> findFirstByCategory(String category);
-
 }

@@ -1,12 +1,12 @@
 package com.springboot.gabombackend.store.service;
 
 import com.springboot.gabombackend.stamp.entity.Stamp;
-import com.springboot.gabombackend.stamp.repository.StampRepository;
 import com.springboot.gabombackend.stamp.entity.UserStamp;
+import com.springboot.gabombackend.stamp.repository.StampRepository;
 import com.springboot.gabombackend.stamp.repository.UserStampRepository;
 import com.springboot.gabombackend.store.entity.Store;
-import com.springboot.gabombackend.store.repository.StoreRepository;
 import com.springboot.gabombackend.store.entity.Visit;
+import com.springboot.gabombackend.store.repository.StoreRepository;
 import com.springboot.gabombackend.store.repository.VisitRepository;
 import com.springboot.gabombackend.title.service.UserTitleService;
 import com.springboot.gabombackend.user.entity.User;
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -41,15 +43,20 @@ public class VisitService {
                 .build();
         visitRepository.save(visit);
 
-        // 스탬프 종류 찾기
-        Stamp stamp = stampRepository.findFirstByCategory(store.getCategory())
-                .orElseThrow(() -> new IllegalArgumentException("해당 카테고리에 맞는 스탬프가 없습니다."));
+        // 카테고리별 스탬프 목록 가져오기
+        List<Stamp> categoryStamps = stampRepository.findByCategory(store.getCategory());
+        if (categoryStamps.isEmpty()) {
+            throw new IllegalArgumentException("해당 카테고리에 등록된 스탬프가 없습니다: " + store.getCategory());
+        }
 
-        // 유저 스탬프 조회 or 생성
-        UserStamp userStamp = userStampRepository.findByUserIdAndStampId(userId, stamp.getId())
+        // 랜덤 스탬프 선택
+        Stamp randomStamp = categoryStamps.get(new Random().nextInt(categoryStamps.size()));
+
+        // 유저 스탬프 조회 or 신규 생성
+        UserStamp userStamp = userStampRepository.findByUserIdAndStampId(userId, randomStamp.getId())
                 .orElse(UserStamp.builder()
                         .user(User.builder().id(userId).build())
-                        .stamp(stamp)
+                        .stamp(randomStamp)
                         .count(0)
                         .build());
 
@@ -61,6 +68,12 @@ public class VisitService {
         userTitleService.updateUserTitleProgress(User.builder().id(userId).build(), store.getCategory());
 
         // 결과 메시지 반환
-        return store.getName() + " 방문 인증 완료! 현재 " + stamp.getCategory() + " 스탬프 " + userStamp.getCount() + "개 보유 중.";
+        return String.format(
+                "%s 방문 인증 완료! 🎉 '%s' 스탬프를 획득했습니다. 현재 %s 카테고리 스탬프 %d개 보유 중.",
+                store.getName(),
+                randomStamp.getName(),
+                randomStamp.getCategory(),
+                userStamp.getCount()
+        );
     }
 }
