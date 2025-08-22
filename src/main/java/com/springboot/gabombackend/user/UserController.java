@@ -8,6 +8,9 @@ import com.springboot.gabombackend.auth.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -92,14 +95,11 @@ public class UserController {
         userInfo.put("nickname", user.getNickname());
 
         return ResponseEntity.ok()
-                // 응답 헤더에도 토큰 추가
                 .header("Authorization", "Bearer " + token)
-                // 바디에도 그대로 내려주기
                 .body(Map.of(
                         "accessToken", token,
                         "user", userInfo
                 ));
-
     }
 
     @PostMapping("/logout")
@@ -107,13 +107,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PostMapping("/find-id")
     public ResponseEntity<?> findId(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         userService.findIdAndSendEmail(email);
 
-        // 항상 동일한 응답
         return ResponseEntity.ok(Map.of(
                 "message", "입력한 이메일로 아이디 안내 메일을 발송했습니다."
         ));
@@ -124,7 +122,6 @@ public class UserController {
         passwordResetService.sendVerificationCode(request.getEmail());
         return ResponseEntity.ok("코드가 전송되었습니다.");
     }
-
 
     @PostMapping("/verify-code")
     public ResponseEntity<?> verifyCode(@RequestBody PasswordResetDtos.VerifyCodeRequest request) {
@@ -147,4 +144,13 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("/me")
+    public ResponseEntity<?> deleteMe() {
+        Long userId = (Long) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        userService.deleteUser(userId);
+
+        return ResponseEntity.ok(Map.of("message", "계정이 삭제되었습니다."));
+    }
 }

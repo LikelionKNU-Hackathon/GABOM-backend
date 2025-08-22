@@ -85,4 +85,12 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
     }
+
+    // 회원 탈퇴
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+        userRepository.delete(user); // Cascade 설정된 엔티티 전부 같이 삭제됨
+    }
 }

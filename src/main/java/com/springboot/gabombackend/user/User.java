@@ -1,6 +1,9 @@
 package com.springboot.gabombackend.user;
 
+import com.springboot.gabombackend.journal.UserJournalCase;
 import com.springboot.gabombackend.stamp.UserStamp;
+import com.springboot.gabombackend.store.Visit;
+import com.springboot.gabombackend.title.UserTitle;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
@@ -42,4 +45,14 @@ public class User {
     // 유저가 가진 스탬프들 (양방향 매핑)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserStamp> userStamps = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserJournalCase journalCase;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserTitle> userTitles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Visit> visits = new ArrayList<>();
+
 }
