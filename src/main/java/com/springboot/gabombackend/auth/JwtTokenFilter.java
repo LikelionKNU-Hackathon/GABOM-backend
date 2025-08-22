@@ -1,7 +1,7 @@
 package com.springboot.gabombackend.auth;
 
-import com.springboot.gabombackend.user.User;
-import com.springboot.gabombackend.user.UserService;
+import com.springboot.gabombackend.user.entity.User;
+import com.springboot.gabombackend.user.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

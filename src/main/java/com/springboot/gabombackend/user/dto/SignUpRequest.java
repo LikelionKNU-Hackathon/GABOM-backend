@@ -1,6 +1,6 @@
 package com.springboot.gabombackend.user.dto;
 
-import com.springboot.gabombackend.user.User;
+import com.springboot.gabombackend.user.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 

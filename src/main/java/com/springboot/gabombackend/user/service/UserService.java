@@ -1,0 +1,98 @@
+package com.springboot.gabombackend.user.service;
+
+import com.springboot.gabombackend.user.entity.User;
+import com.springboot.gabombackend.user.repository.UserRepository;
+import com.springboot.gabombackend.user.dto.LoginRequest;
+import com.springboot.gabombackend.user.dto.SignUpRequest;
+import com.springboot.gabombackend.user.dto.UserUpdateDto;
+import com.springboot.gabombackend.infra.MailService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final MailService mailService;
+
+    public void findIdAndSendEmail(String email) {
+        userRepository.findByEmail(email)
+                .ifPresent(user -> mailService.sendIdReminder(email, user.getLoginId()));
+        // 존재하지 않아도 그냥 아무것도 안 함
+    }
+
+    // 아이디 중복 여부
+    public boolean existsLoginId(String loginId) {
+        return userRepository.existsByLoginId(loginId);
+    }
+
+    // 이메일 중복 여부
+    public boolean existsEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    // 닉네임 중복 여부
+    public boolean existsNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    // 회원가입
+    @Transactional
+    public Long signUp(SignUpRequest req) {
+        String encodedPw = passwordEncoder.encode(req.getPassword());
+        User saved = userRepository.save(req.toEntity(encodedPw));
+        return saved.getId();
+    }
+
+    // 로그인
+    public User login(LoginRequest req) {
+        return userRepository.findByLoginId(req.getLoginId())
+                .filter(u -> passwordEncoder.matches(req.getPassword(), u.getPassword()))
+                .orElse(null);
+    }
+
+    // loginId로 사용자 조회
+    public User getByLoginId(String loginId) {
+        return userRepository.findByLoginId(loginId).orElse(null);
+    }
+
+    // 마이페이지 정보 수정
+    @Transactional
+    public User updateUser(String loginId, UserUpdateDto dto) {
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        if (dto.getUsername() != null && !dto.getUsername().isBlank()) {
+            user.setUsername(dto.getUsername());
+        }
+        if (dto.getEmail() != null && !dto.getEmail().isBlank()) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getNickname() != null && !dto.getNickname().isBlank()) {
+            user.setNickname(dto.getNickname());
+        }
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            String encodedPw = passwordEncoder.encode(dto.getPassword());
+            user.setPassword(encodedPw);
+        }
+
+        return userRepository.save(user);
+    }
+
+    public User getById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+    }
+
+    // 회원 탈퇴
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+        userRepository.delete(user); // Cascade 설정된 엔티티 전부 같이 삭제됨
+    }
+}
