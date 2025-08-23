@@ -13,16 +13,17 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // 모든 경로 허용
-                        .allowedOrigins(
+                registry.addMapping("/**")
+                        .allowedOriginPatterns(
                                 "https://gabom.shop",
                                 "https://www.gabom.shop",
-                                "https://gabom.netlify.app",   // Netlify 프론트
-                                "http://localhost:3000"        // 로컬 개발용
+                                "https://gabom.netlify.app",
+                                "http://localhost:3000"
                         )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true); // 쿠키/인증정보 허용
+                        .allowedMethods("*")       // 모든 메서드 허용
+                        .allowedHeaders("*")       // 모든 헤더 허용
+                        .exposedHeaders("*")       // 응답 헤더도 다 허용
+                        .allowCredentials(true);   // 쿠키/인증 허용
             }
         };
     }
