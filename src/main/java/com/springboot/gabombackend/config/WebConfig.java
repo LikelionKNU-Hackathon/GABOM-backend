@@ -14,7 +14,12 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // 모든 경로 허용
-                        .allowedOrigins("https://gabom.shop", "https://www.gabom.shop") // 허용할 도메인
+                        .allowedOrigins(
+                                "https://gabom.shop",
+                                "https://www.gabom.shop",
+                                "https://gabom.netlify.app",   // Netlify 프론트
+                                "http://localhost:3000"        // 로컬 개발용
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true); // 쿠키/인증정보 허용
