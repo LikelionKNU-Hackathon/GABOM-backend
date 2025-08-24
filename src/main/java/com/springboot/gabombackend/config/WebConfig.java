@@ -20,7 +20,15 @@ public class WebConfig {
                                 "https://gabom.netlify.app",
                                 "http://localhost:3000"
                         )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods(
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "PATCH",
+                                "DELETE",
+                                "OPTIONS",
+                                "HEAD"
+                        )
                         .allowedHeaders("*")
                         .exposedHeaders("*")
                         .allowCredentials(true);
