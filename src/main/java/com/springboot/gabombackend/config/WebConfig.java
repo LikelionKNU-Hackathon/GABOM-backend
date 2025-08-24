@@ -14,16 +14,16 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns(
+                        .allowedOrigins(
                                 "https://gabom.shop",
                                 "https://www.gabom.shop",
                                 "https://gabom.netlify.app",
                                 "http://localhost:3000"
                         )
-                        .allowedMethods("*")       // 모든 메서드 허용
-                        .allowedHeaders("*")       // 모든 헤더 허용
-                        .exposedHeaders("*")       // 응답 헤더도 다 허용
-                        .allowCredentials(true);   // 쿠키/인증 허용
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .exposedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
