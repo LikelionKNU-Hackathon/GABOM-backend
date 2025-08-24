@@ -1,6 +1,8 @@
 package com.springboot.gabombackend.chatbot.controller;
 
 import com.springboot.gabombackend.chatbot.service.ChatbotService;
+import com.springboot.gabombackend.user.entity.User;
+import com.springboot.gabombackend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,23 +16,17 @@ import java.util.Map;
 public class ChatController {
 
     private final ChatbotService chatbotService;
+    private final UserService userService;
 
     @PostMapping
     public Map<String, String> chat(@RequestBody Map<String, Object> request) {
         // 현재 로그인된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loginId = authentication.getName(); // principal = loginId
 
-        // principal 은 기본적으로 String (username) 또는 UserDetails 객체
-        String principal = authentication.getPrincipal().toString();
-
-        Long userId;
-        try {
-            // principal 이 userId(String) 라면 Long 변환
-            userId = Long.valueOf(principal);
-        } catch (NumberFormatException e) {
-            // userId가 숫자가 아닐 경우 (ex. username/email일 경우) → 예외 처리
-            throw new IllegalArgumentException("JWT principal 값이 숫자(Long)가 아닙니다: " + principal);
-        }
+        // loginId 로 유저 조회 후 userId 가져오기
+        User user = userService.getByLoginId(loginId);
+        Long userId = user.getId();
 
         // 프론트에서 넘어온 message 꺼내기
         String userMessage = request.get("message").toString();
