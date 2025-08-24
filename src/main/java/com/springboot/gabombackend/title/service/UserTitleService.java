@@ -36,8 +36,9 @@ public class UserTitleService {
                         new UserTitle(user, title, 0, false, false)
                 ));
 
-        // 진행도를 스탬프 총합으로 맞추기
-        userTitle.setCurrentCount(totalCount);
+        // 진행도는 goalCount(=10) 이상 올라가지 않도록 cap 처리
+        int displayCount = Math.min(totalCount, title.getGoalCount());
+        userTitle.setCurrentCount(displayCount);
 
         // 목표치 달성 여부 체크
         if (totalCount >= title.getGoalCount()) {
