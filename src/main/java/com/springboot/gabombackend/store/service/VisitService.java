@@ -53,12 +53,14 @@ public class VisitService {
         Stamp randomStamp = categoryStamps.get(new Random().nextInt(categoryStamps.size()));
 
         // 유저 스탬프 조회 or 신규 생성
-        UserStamp userStamp = userStampRepository.findByUserIdAndStampId(userId, randomStamp.getId())
-                .orElse(UserStamp.builder()
-                        .user(User.builder().id(userId).build())
-                        .stamp(randomStamp)
-                        .count(0)
-                        .build());
+        UserStamp userStamp = userStampRepository.findByUser_IdAndStamp_Id(userId, randomStamp.getId())
+                .orElseGet(() -> userStampRepository.save(
+                        UserStamp.builder()
+                                .user(User.builder().id(userId).build())
+                                .stamp(randomStamp)
+                                .count(0)
+                                .build()
+                ));
 
         // 스탬프 증가
         userStamp.incrementCount();

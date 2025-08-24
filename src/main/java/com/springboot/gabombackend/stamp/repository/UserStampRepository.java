@@ -25,8 +25,8 @@ public interface UserStampRepository extends JpaRepository<UserStamp, Long> {
     // 유저와 스탬프로 단일 조회
     Optional<UserStamp> findByUserAndStamp(User user, Stamp stamp);
 
-    // userId, stampId로 단일 조회
-    Optional<UserStamp> findByUserIdAndStampId(Long userId, Long stampId);
+    // userId, stampId로 단일 조회 (수정됨!)
+    Optional<UserStamp> findByUser_IdAndStamp_Id(Long userId, Long stampId);
 
     // 유저가 가진 모든 스탬프 총 개수
     @Query("SELECT COALESCE(SUM(us.count), 0) " +

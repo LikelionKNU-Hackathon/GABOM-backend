@@ -40,7 +40,7 @@ public class UserStampService {
 
         // 기존 유저 스탬프 가져오기 (없으면 새로 생성)
         UserStamp userStamp = userStampRepository.findByUserAndStamp(user, randomStamp)
-                .orElse(new UserStamp(user, randomStamp, 0));
+                .orElseGet(() -> userStampRepository.save(new UserStamp(user, randomStamp, 0)));
 
         // 스탬프 개수 증가
         userStamp.setCount(userStamp.getCount() + 1);
