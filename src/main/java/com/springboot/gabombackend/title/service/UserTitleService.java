@@ -23,6 +23,7 @@ public class UserTitleService {
     private final UserTitleRepository userTitleRepository;
     private final UserStampRepository userStampRepository;
 
+    // 카테고리별 스탬프 적립 시 칭호 진행도 갱신
     public void updateUserTitleProgress(User user, String category) {
         Title title = titleRepository.findByCategory(category)
                 .orElseThrow(() -> new RuntimeException("칭호 정보 없음"));
@@ -36,7 +37,7 @@ public class UserTitleService {
                         new UserTitle(user, title, 0, false, false)
                 ));
 
-        // 진행도는 goalCount(=10) 이상 올라가지 않도록 cap 처리
+        // 진행도는 goalCount 이상 올라가지 않도록 cap 처리
         int displayCount = Math.min(totalCount, title.getGoalCount());
         userTitle.setCurrentCount(displayCount);
 
@@ -48,19 +49,30 @@ public class UserTitleService {
         userTitleRepository.save(userTitle);
     }
 
-    // 내 칭호 목록 조회
+    // 내 칭호 목록 조회 (획득 안한 칭호도 포함)
     public List<UserTitleResponse> getMyTitles(Long userId) {
-        return userTitleRepository.findByUserId(userId).stream()
-                .map(ut -> new UserTitleResponse(
-                        ut.getTitle().getId(),
-                        ut.getTitle().getName(),
-                        ut.getTitle().getDescription(),
-                        ut.getCurrentCount(),
-                        ut.getTitle().getGoalCount(),
-                        ut.isAchieved(),
-                        ut.isRepresentative()
-                ))
-                .collect(Collectors.toList());
+        // 전체 칭호 가져오기
+        List<Title> allTitles = titleRepository.findAll();
+
+        return allTitles.stream().map(title -> {
+            // 유저의 칭호 진행도 조회 (없으면 null)
+            UserTitle ut = userTitleRepository.findByUserIdAndTitleId(userId, title.getId())
+                    .orElse(null);
+
+            int current = (ut != null) ? ut.getCurrentCount() : 0;
+            boolean achieved = (ut != null) && ut.isAchieved();
+            boolean representative = (ut != null) && ut.isRepresentative();
+
+            return new UserTitleResponse(
+                    title.getId(),
+                    title.getName(),
+                    title.getDescription(),
+                    current,
+                    title.getGoalCount(),
+                    achieved,
+                    representative
+            );
+        }).collect(Collectors.toList());
     }
 
     // 대표 칭호 설정
