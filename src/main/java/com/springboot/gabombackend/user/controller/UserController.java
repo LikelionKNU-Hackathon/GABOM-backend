@@ -148,10 +148,11 @@ public class UserController {
 
     @DeleteMapping("/me")
     public ResponseEntity<?> deleteMe() {
-        Long userId = (Long) SecurityContextHolder.getContext()
+        String loginId = (String) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 
-        userService.deleteUser(userId);
+        User user = userService.getByLoginId(loginId);
+        userService.deleteUser(user.getId());
 
         return ResponseEntity.ok(Map.of("message", "계정이 삭제되었습니다."));
     }
