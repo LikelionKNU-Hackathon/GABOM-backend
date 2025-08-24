@@ -36,6 +36,9 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtTokenFilter(userService, secretKey),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
+                        // Preflight(OPTIONS) 요청 허용
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                         // POST 요청: 회원가입, 로그인 -> 인증 없이 허용
                         .requestMatchers(HttpMethod.POST,
                                 "/api/users",
