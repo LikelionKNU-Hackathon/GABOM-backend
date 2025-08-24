@@ -18,8 +18,8 @@ public class TierController {
 
     @GetMapping
     public TierResponse getMyTiers(Authentication authentication) {
-        Long userId = (Long) authentication.getPrincipal();
-        User user = userService.getById(userId); // DB 조회
+        String loginId = authentication.getName(); // principal = loginId
+        User user = userService.getByLoginId(loginId); // DB 조회
         return tierService.getUserTiers(user);
     }
 }
