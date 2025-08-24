@@ -30,9 +30,9 @@ public class StoreService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("가게를 찾을 수 없습니다."));
 
-        // 로그인 유저 가져오기 (userId 기반)
-        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = userRepository.findById(userId)
+        // 로그인 유저 가져오기 (loginId 기반)
+        String loginId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
         // 내 방문 수
