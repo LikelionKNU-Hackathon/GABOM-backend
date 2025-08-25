@@ -55,7 +55,7 @@ public class GptClient {
         headers.setBearerAuth(OPENAI_API_KEY);
 
         Map<String, Object> body = Map.of(
-                "model", "gpt-4o-mini",
+                "model", "gpt-4.1-mini",
                 "messages", history
         );
 
@@ -75,7 +75,7 @@ public class GptClient {
         headers.setBearerAuth(OPENAI_API_KEY);
 
         Map<String, Object> body = Map.of(
-                "model", "gpt-4o-mini",
+                "model", "gpt-4.1-mini",
                 "messages", List.of(
                         Map.of("role", "system", "content", systemPrompt),
                         Map.of("role", "user", "content", userMessage)
