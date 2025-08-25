@@ -17,7 +17,7 @@ public class GptClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${openai.api.key}")
+    @Value("${OPENAI_API_KEY}")
     private String OPENAI_API_KEY;
 
     private final String GPT_URL = "https://api.openai.com/v1/chat/completions";
