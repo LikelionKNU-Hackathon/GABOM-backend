@@ -1,6 +1,6 @@
 package com.springboot.gabombackend.chatbot.client;
 
-import jakarta.annotation.PostConstruct; // ✅ PostConstruct import
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -18,12 +18,12 @@ public class GptClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${OPENAI_API_KEY}")  // ✅ 환경변수명 통일
+    @Value("${OPENAI_API_KEY}")
     private String OPENAI_API_KEY;
 
     private final String GPT_URL = "https://api.openai.com/v1/chat/completions";
 
-    // ✅ 실행 시 키값 확인용 로그
+    // 실행 시 키값 확인용 로그
     @PostConstruct
     public void init() {
         System.out.println("✅ OPENAI_API_KEY = " + OPENAI_API_KEY);
@@ -62,7 +62,7 @@ public class GptClient {
         headers.setBearerAuth(OPENAI_API_KEY);
 
         Map<String, Object> body = Map.of(
-                "model", "gpt-4o-mini",  // ✅ 모델명 수정 (기존 gpt-4.1-mini → gpt-4o-mini)
+                "model", "gpt-4o-mini",
                 "messages", history
         );
 
@@ -82,7 +82,7 @@ public class GptClient {
         headers.setBearerAuth(OPENAI_API_KEY);
 
         Map<String, Object> body = Map.of(
-                "model", "gpt-4o-mini",   // ✅ 모델명 수정
+                "model", "gpt-4o-mini",
                 "messages", List.of(
                         Map.of("role", "system", "content", systemPrompt),
                         Map.of("role", "user", "content", userMessage)
