@@ -90,7 +90,12 @@ public class UserController {
         }
 
         long expireTimeMs = 1000 * 60 * 60; // 60분
-        String token = JwtTokenUtil.createToken(user.getLoginId(), secretKey, expireTimeMs);
+        String token = JwtTokenUtil.createToken(
+                user.getLoginId(),
+                "USER",
+                secretKey,
+                expireTimeMs
+        );
 
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("id", user.getLoginId());
