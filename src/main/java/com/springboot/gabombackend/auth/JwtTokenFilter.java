@@ -2,6 +2,8 @@ package com.springboot.gabombackend.auth;
 
 import com.springboot.gabombackend.user.entity.User;
 import com.springboot.gabombackend.user.service.UserService;
+import com.springboot.gabombackend.owner.entity.Owner;
+import com.springboot.gabombackend.owner.repository.OwnerRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import java.util.List;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final UserService userService;
+    private final OwnerRepository ownerRepository;
     private final String secretKey;
 
     @Override
@@ -57,22 +60,36 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String loginId = JwtTokenUtil.getLoginId(token, secretKey);
         String role = JwtTokenUtil.getRole(token, secretKey);
 
-        User loginUser = userService.getByLoginId(loginId);
-        if (loginUser == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        UsernamePasswordAuthenticationToken authenticationToken = null;
 
-        // 권한 포함 Authentication 생성
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(
+        if ("OWNER".equals(role)) {
+            // 업주 인증 처리
+            Owner owner = ownerRepository.findByLoginId(loginId)
+                    .orElse(null);
+            if (owner != null) {
+                authenticationToken = new UsernamePasswordAuthenticationToken(
+                        owner.getLoginId(),
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_OWNER"))
+                );
+            }
+        } else {
+            // 일반 사용자 인증 처리
+            User loginUser = userService.getByLoginId(loginId);
+            if (loginUser != null) {
+                authenticationToken = new UsernamePasswordAuthenticationToken(
                         loginUser.getLoginId(),
                         null,
-                        List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
                 );
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            }
+        }
 
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        if (authenticationToken != null) {
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
+
         filterChain.doFilter(request, response);
     }
 
@@ -89,5 +106,4 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 uri.startsWith("/api/owners/signup") ||
                 uri.startsWith("/api/owners/login");
     }
-
 }

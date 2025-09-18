@@ -1,6 +1,7 @@
 package com.springboot.gabombackend.config;
 
 import com.springboot.gabombackend.auth.JwtTokenFilter;
+import com.springboot.gabombackend.owner.repository.OwnerRepository;
 import com.springboot.gabombackend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -19,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final UserService userService;
+    private final OwnerRepository ownerRepository;
 
     @Value("${springboot.jwt.secret}")
     private String secretKey;
@@ -32,20 +35,20 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 // 세션 사용 안 함 (STATELESS)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // JWT 필터 등록
-                .addFilterBefore(new JwtTokenFilter(userService, secretKey),
+                // JWT 필터 등록 (User + Owner 지원)
+                .addFilterBefore(new JwtTokenFilter(userService, ownerRepository, secretKey),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         // Preflight(OPTIONS) 요청 허용
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // ✅ 유저 회원가입/로그인 허용
+                        // 유저 회원가입/로그인 허용
                         .requestMatchers(HttpMethod.POST,
                                 "/api/users",
                                 "/api/users/login"
                         ).permitAll()
 
-                        // ✅ 업주 회원가입/로그인 허용
+                        // 업주 회원가입/로그인 허용
                         .requestMatchers(HttpMethod.POST,
                                 "/api/owners/signup",
                                 "/api/owners/login"
@@ -83,7 +86,7 @@ public class SecurityConfig {
                         // 챗봇
                         .requestMatchers(HttpMethod.POST, "/api/chat").authenticated()
 
-                        // ✅ 업주 전용 API (가입/로그인 제외)
+                        // 업주 전용 API (가입/로그인 제외)
                         .requestMatchers("/api/owners/**").hasAuthority("ROLE_OWNER")
 
                         // 나머지 요청: 현재는 모두 허용

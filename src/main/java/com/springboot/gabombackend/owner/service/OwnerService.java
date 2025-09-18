@@ -1,6 +1,7 @@
 package com.springboot.gabombackend.owner.service;
 
 import com.springboot.gabombackend.auth.JwtTokenUtil;
+import com.springboot.gabombackend.owner.dto.OwnerResponse;
 import com.springboot.gabombackend.owner.entity.Owner;
 import com.springboot.gabombackend.owner.repository.OwnerRepository;
 import com.springboot.gabombackend.store.entity.Store;
@@ -36,7 +37,7 @@ public class OwnerService {
         return ownerRepository.save(owner);
     }
 
-    // 업주 로그인
+    // 업주 로그인 (storeId 포함 토큰 발급)
     public String login(String loginId, String password) {
         Owner owner = ownerRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 업주 계정입니다."));
@@ -46,11 +47,25 @@ public class OwnerService {
         }
 
         long expireTimeMs = 1000 * 60 * 60; // 60분
-        return JwtTokenUtil.createToken(
+
+        // 업주 전용 토큰 생성 (loginId + role + storeId)
+        return JwtTokenUtil.createTokenWithRoleAndStore(
                 owner.getLoginId(),
                 "OWNER",
+                owner.getStore().getId(),
                 secretKey,
                 expireTimeMs
+        );
+    }
+
+    // 업주 마이페이지 조회
+    public OwnerResponse getMyInfo(String loginId) {
+        Owner owner = ownerRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 업주 계정입니다."));
+
+        return new OwnerResponse(
+                owner.getLoginId(),
+                owner.getStore().getName()
         );
     }
 }

@@ -1,9 +1,11 @@
 package com.springboot.gabombackend.owner.controller;
 
+import com.springboot.gabombackend.owner.dto.OwnerResponse;
 import com.springboot.gabombackend.owner.entity.Owner;
 import com.springboot.gabombackend.owner.service.OwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -44,5 +46,13 @@ public class OwnerController {
                 "accessToken", token,
                 "role", "OWNER"
         ));
+    }
+
+    // 업주 마이페이지 조회
+    @GetMapping("/me")
+    public ResponseEntity<OwnerResponse> getMyInfo(Authentication authentication) {
+        String loginId = authentication.getName();  // JwtTokenFilter에서 principal로 세팅됨
+        OwnerResponse response = ownerService.getMyInfo(loginId);
+        return ResponseEntity.ok(response);
     }
 }
