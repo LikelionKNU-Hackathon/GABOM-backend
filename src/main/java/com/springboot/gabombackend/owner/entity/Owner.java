@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "owners")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
