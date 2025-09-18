@@ -1,7 +1,9 @@
 package com.springboot.gabombackend.auth;
 
-import com.springboot.gabombackend.user.User;
-import com.springboot.gabombackend.user.UserService;
+import com.springboot.gabombackend.user.entity.User;
+import com.springboot.gabombackend.user.service.UserService;
+import com.springboot.gabombackend.owner.entity.Owner;
+import com.springboot.gabombackend.owner.repository.OwnerRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,6 +23,7 @@ import java.util.List;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final UserService userService;
+    private final OwnerRepository ownerRepository;
     private final String secretKey;
 
     @Override
@@ -29,55 +33,66 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI();
 
-        // JWT 검증 제외 URL
+        // JWT 예외 경로
         if (isExcludedPath(requestURI, request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Authorization 헤더에서 토큰 추출
+        // 헤더에서 토큰 추출
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader == null || authorizationHeader.isBlank()) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 기본은 전체를 토큰으로 사용
-        String token = authorizationHeader.trim();
+        String token = authorizationHeader.startsWith("Bearer ")
+                ? authorizationHeader.substring(7).trim()
+                : authorizationHeader.trim();
 
-        // Bearer 접두사 제거
-        if (authorizationHeader.startsWith("Bearer ")) {
-            token = authorizationHeader.substring(7).trim();
-        }
-
-        // 토큰 만료 여부 확인
+        // 만료 확인
         if (JwtTokenUtil.isExpired(token, secretKey)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 토큰에서 loginId 추출
+        // 사용자 정보 추출
         String loginId = JwtTokenUtil.getLoginId(token, secretKey);
+        String role = JwtTokenUtil.getRole(token, secretKey);
 
-        // 사용자 조회
-        User loginUser = userService.getByLoginId(loginId);
-        if (loginUser == null) {
-            filterChain.doFilter(request, response);
-            return;
+        UsernamePasswordAuthenticationToken authenticationToken = null;
+
+        if ("OWNER".equals(role)) {
+            // 업주 인증 처리
+            Owner owner = ownerRepository.findByLoginId(loginId)
+                    .orElse(null);
+            if (owner != null) {
+                authenticationToken = new UsernamePasswordAuthenticationToken(
+                        owner.getLoginId(),
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_OWNER"))
+                );
+            }
+        } else {
+            // 일반 사용자 인증 처리
+            User loginUser = userService.getByLoginId(loginId);
+            if (loginUser != null) {
+                authenticationToken = new UsernamePasswordAuthenticationToken(
+                        loginUser.getLoginId(),
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                );
+            }
         }
 
-        // 인증 객체 생성 (권한 없음)
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginUser.getId(), null, List.of());
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        // SecurityContext에 저장
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        if (authenticationToken != null) {
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
 
         filterChain.doFilter(request, response);
     }
 
-    // JWT 필터 제외 경로
     private boolean isExcludedPath(String uri, String method) {
         return uri.startsWith("/api/users/login") ||
                 (uri.startsWith("/api/users") && method.equalsIgnoreCase("POST")
@@ -85,6 +100,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 uri.startsWith("/api/users/find-id") ||
                 uri.startsWith("/api/users/find-password") ||
                 uri.startsWith("/api/users/verify-code") ||
-                uri.startsWith("/api/users/reset-password");
+                uri.startsWith("/api/users/reset-password") ||
+
+                // 업주 회원가입/로그인 예외 추가
+                uri.startsWith("/api/owners/signup") ||
+                uri.startsWith("/api/owners/login");
     }
 }

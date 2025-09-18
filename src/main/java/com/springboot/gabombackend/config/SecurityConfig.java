@@ -1,7 +1,8 @@
 package com.springboot.gabombackend.config;
 
 import com.springboot.gabombackend.auth.JwtTokenFilter;
-import com.springboot.gabombackend.user.UserService;
+import com.springboot.gabombackend.owner.repository.OwnerRepository;
+import com.springboot.gabombackend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -19,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final UserService userService;
+    private final OwnerRepository ownerRepository;
 
     @Value("${springboot.jwt.secret}")
     private String secretKey;
@@ -32,40 +35,61 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 // 세션 사용 안 함 (STATELESS)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // JWT 필터 등록
-                .addFilterBefore(new JwtTokenFilter(userService, secretKey),
+                // JWT 필터 등록 (User + Owner 지원)
+                .addFilterBefore(new JwtTokenFilter(userService, ownerRepository, secretKey),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        // POST 요청: 회원가입, 로그인 -> 인증 없이 허용
+                        // Preflight(OPTIONS) 요청 허용
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // 유저 회원가입/로그인 허용
                         .requestMatchers(HttpMethod.POST,
                                 "/api/users",
                                 "/api/users/login"
                         ).permitAll()
-                        // POST 요청: 로그아웃 -> 인증 필요
+
+                        // 업주 회원가입/로그인 허용
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/owners/signup",
+                                "/api/owners/login"
+                        ).permitAll()
+
+                        // 로그아웃 -> 인증 필요
                         .requestMatchers(HttpMethod.POST, "/api/users/logout").authenticated()
-                        // GET 요청: 중복 확인 -> 인증 없이 허용
+
+                        // 유저 API
                         .requestMatchers(HttpMethod.GET, "/api/users/check").permitAll()
-                        // 마이페이지 관련 -> 인증 필요
                         .requestMatchers("/api/users/me").authenticated()
                         .requestMatchers("/api/user/stamps").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/users/me").authenticated()
+
                         // 칭호
                         .requestMatchers(HttpMethod.GET, "/api/users/me/titles").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/users/me/titles/**").permitAll()
+
                         // 티어
                         .requestMatchers("/api/users/me/tiers").authenticated()
+
                         // 케이스
                         .requestMatchers(HttpMethod.GET, "/api/journal/cases").authenticated()
+
                         // 랭킹
                         .requestMatchers(HttpMethod.GET, "/api/rankings").authenticated()
+
                         // QR, 스탬프 적립
                         .requestMatchers(HttpMethod.POST, "/api/visits/verify").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/stamps").authenticated()
+
                         // 가게 검색
                         .requestMatchers("/api/stores/**").authenticated()
+
                         // 챗봇
                         .requestMatchers(HttpMethod.POST, "/api/chat").authenticated()
-                        // 나머지 요청: 현재는 모두 허용 (추후 보호 필요시 변경)
+
+                        // 업주 전용 API (가입/로그인 제외)
+                        .requestMatchers("/api/owners/**").hasAuthority("ROLE_OWNER")
+
+                        // 나머지 요청: 현재는 모두 허용
                         .anyRequest().permitAll()
                 )
                 .build();

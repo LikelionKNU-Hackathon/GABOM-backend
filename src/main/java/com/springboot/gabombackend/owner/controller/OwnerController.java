@@ -1,0 +1,58 @@
+package com.springboot.gabombackend.owner.controller;
+
+import com.springboot.gabombackend.owner.dto.OwnerResponse;
+import com.springboot.gabombackend.owner.entity.Owner;
+import com.springboot.gabombackend.owner.service.OwnerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/owners")
+@RequiredArgsConstructor
+public class OwnerController {
+
+    private final OwnerService ownerService;
+
+    // 업주 회원가입
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody Map<String, String> request) {
+        String loginId = request.get("loginId");
+        String password = request.get("password");
+        String email = request.get("email");
+        Long storeId = Long.valueOf(request.get("storeId"));
+
+        Owner owner = ownerService.signUp(loginId, password, email, storeId);
+
+        return ResponseEntity.ok(Map.of(
+                "message", "업주 회원가입이 완료되었습니다.",
+                "ownerId", owner.getId(),
+                "storeId", storeId
+        ));
+    }
+
+    // 업주 로그인
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
+        String loginId = request.get("loginId");
+        String password = request.get("password");
+
+        String token = ownerService.login(loginId, password);
+
+        return ResponseEntity.ok(Map.of(
+                "accessToken", token,
+                "role", "OWNER"
+        ));
+    }
+
+    // 업주 마이페이지 조회
+    @GetMapping("/me")
+    public ResponseEntity<OwnerResponse> getMyInfo(Authentication authentication) {
+        String loginId = authentication.getName();  // JwtTokenFilter에서 principal로 세팅됨
+        OwnerResponse response = ownerService.getMyInfo(loginId);
+        return ResponseEntity.ok(response);
+    }
+}
