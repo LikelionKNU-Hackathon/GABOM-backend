@@ -20,6 +20,7 @@ public class SignUpRequest {
                 .password(encodedPw)
                 .email(this.email)
                 .nickname(this.nickname)
+                .role("USER")
                 .build();
     }
 }
