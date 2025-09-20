@@ -39,19 +39,14 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtTokenFilter(userService, ownerRepository, secretKey),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        // Preflight(OPTIONS) 요청 허용
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // 유저 회원가입/로그인 허용
-                        .requestMatchers(HttpMethod.POST,
-                                "/api/users",
-                                "/api/users/login"
+                        .requestMatchers(HttpMethod.POST, "/api/users", "/api/users/login"
                         ).permitAll()
 
                         // 업주 회원가입/로그인 허용
-                        .requestMatchers(HttpMethod.POST,
-                                "/api/owners/signup",
-                                "/api/owners/login"
+                        .requestMatchers(HttpMethod.POST, "/api/owners/signup", "/api/owners/login"
                         ).permitAll()
 
                         // 로그아웃 -> 인증 필요
@@ -80,8 +75,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/visits/verify").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/stamps").authenticated()
 
-                        // 가게 검색
-                        .requestMatchers("/api/stores/**").authenticated()
+                        // 리뷰 API
+                        .requestMatchers(HttpMethod.GET, "/api/stores/*/reviews").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/stores/*/reviews").authenticated()
+
+                        // 가게 상세/검색 (현재는 로그인 필요)
+                        .requestMatchers(HttpMethod.GET, "/api/stores/**").authenticated()
 
                         // 챗봇
                         .requestMatchers(HttpMethod.POST, "/api/chat").authenticated()
