@@ -42,7 +42,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // 유저가 가진 스탬프들 (양방향 매핑)
+    // 권한 (USER, OWNER, ADMIN)
+    @Column(nullable = false)
+    private String role = "USER";
+
+    // 유저가 가진 스탬프들
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserStamp> userStamps = new ArrayList<>();
 
