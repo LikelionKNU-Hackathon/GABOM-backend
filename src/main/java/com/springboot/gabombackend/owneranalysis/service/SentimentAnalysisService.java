@@ -38,7 +38,7 @@ public class SentimentAnalysisService {
         return sb.toString();
     }
 
-    /// 긍/부정 비율 분석
+    // 긍/부정 비율 분석
     @Transactional
     public SentimentAnalysisDto analyze(Long storeId) throws Exception {
         Store store = storeRepo.findById(storeId)

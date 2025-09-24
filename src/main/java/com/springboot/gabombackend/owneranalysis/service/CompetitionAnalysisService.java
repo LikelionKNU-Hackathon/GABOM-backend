@@ -27,7 +27,7 @@ public class CompetitionAnalysisService {
 
     private static final int MAX_CHARS = 8000;
 
-    /** 리뷰들을 일정 글자수까지만 합치는 유틸 */
+    // 리뷰들을 일정 글자수까지만 합치는 유틸
     private String joinWithLimit(List<String> reviews) {
         StringBuilder sb = new StringBuilder();
         for (String r : reviews) {
@@ -38,7 +38,7 @@ public class CompetitionAnalysisService {
         return sb.toString();
     }
 
-    /** 내 가게 vs 같은 카테고리 경쟁 가게 리뷰 비교 분석 */
+    // 내 가게 vs 같은 카테고리 경쟁 가게 리뷰 비교 분석
     @Transactional
     public CompetitionAnalysisDto analyze(Long storeId) throws Exception {
         Store store = storeRepo.findById(storeId)
