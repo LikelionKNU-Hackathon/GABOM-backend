@@ -29,27 +29,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                // HTTP Basic 인증 비활성화
                 .httpBasic(httpBasic -> httpBasic.disable())
-                // CSRF 비활성화 (JWT 사용 시 필요 없음)
                 .csrf(csrf -> csrf.disable())
-                // 세션 사용 안 함 (STATELESS)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // JWT 필터 등록 (User + Owner 지원)
                 .addFilterBefore(new JwtTokenFilter(userService, ownerRepository, secretKey),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // 유저 회원가입/로그인 허용
-                        .requestMatchers(HttpMethod.POST, "/api/users", "/api/users/login"
-                        ).permitAll()
+                        // 유저 회원가입/로그인
+                        .requestMatchers(HttpMethod.POST, "/api/users", "/api/users/login").permitAll()
 
-                        // 업주 회원가입/로그인 허용
-                        .requestMatchers(HttpMethod.POST, "/api/owners/signup", "/api/owners/login"
-                        ).permitAll()
+                        // 업주 회원가입/로그인
+                        .requestMatchers(HttpMethod.POST, "/api/owners/signup", "/api/owners/login").permitAll()
 
-                        // 로그아웃 -> 인증 필요
+                        // 로그아웃 (유저/업주 모두 인증 필요)
                         .requestMatchers(HttpMethod.POST, "/api/users/logout").authenticated()
 
                         // 유저 API
@@ -59,8 +53,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/users/me").authenticated()
 
                         // 칭호
-                        .requestMatchers(HttpMethod.GET, "/api/users/me/titles").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "/api/users/me/titles/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/me/titles").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/users/me/titles/**").authenticated()
 
                         // 티어
                         .requestMatchers("/api/users/me/tiers").authenticated()
@@ -79,16 +73,16 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/stores/*/reviews").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/stores/*/reviews").authenticated()
 
-                        // 가게 상세/검색 (현재는 로그인 필요)
-                        .requestMatchers(HttpMethod.GET, "/api/stores/**").authenticated()
+                        // 가게 상세/검색 → 공개 허용 (permitAll이 자연스러움)
+                        .requestMatchers(HttpMethod.GET, "/api/stores/**").permitAll()
 
                         // 챗봇
                         .requestMatchers(HttpMethod.POST, "/api/chat").authenticated()
 
-                        // 업주 전용 API (가입/로그인 제외)
-                        .requestMatchers("/api/owners/**").hasAuthority("ROLE_OWNER")
+                        // 업주 전용 API (가입/로그인 제외) → OWNER 권한 필요
+                        .requestMatchers("/api/owners/**").hasRole("OWNER")
 
-                        // 나머지 요청: 현재는 모두 허용
+                        // 나머지 요청: 모두 허용
                         .anyRequest().permitAll()
                 )
                 .build();
