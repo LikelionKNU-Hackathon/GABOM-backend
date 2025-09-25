@@ -46,6 +46,11 @@ public class SentimentAnalysisService {
 
         List<String> reviews = reviewRepo.findContentsByStoreId(storeId);
 
+        // 리뷰가 없을 경우 바로 예외 던지기 (GPT 호출 안 함)
+        if (reviews == null || reviews.isEmpty()) {
+            throw new IllegalArgumentException("리뷰 데이터가 없습니다.");
+        }
+
         // GPT 프롬프트
         String systemPrompt = "당신은 음식점 리뷰를 분석하는 AI입니다. " +
                 "전체 리뷰의 긍정/부정 비율을 %로 계산하고 반드시 JSON만 출력하세요. " +

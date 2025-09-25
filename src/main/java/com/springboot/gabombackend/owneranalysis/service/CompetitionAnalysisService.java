@@ -47,9 +47,15 @@ public class CompetitionAnalysisService {
         // 내 가게 리뷰
         List<String> myReviews = reviewRepo.findContentsByStoreId(storeId);
 
-        // 같은 카테고리(문자열) 내 다른 가게들의 리뷰
+        // 같은 카테고리 내 다른 가게들의 리뷰
         List<String> compReviews = reviewRepo.findContentsByCategoryCompetitors(
                 store.getCategory(), storeId);
+
+        // 리뷰 없는 경우 처리 (내 리뷰도 없고 경쟁 리뷰도 없을 때)
+        if ((myReviews == null || myReviews.isEmpty()) &&
+                (compReviews == null || compReviews.isEmpty())) {
+            throw new IllegalArgumentException("리뷰 데이터가 없습니다.");
+        }
 
         // GPT 프롬프트
         String systemPrompt = "당신은 음식점 리뷰를 분석하는 AI입니다. " +
