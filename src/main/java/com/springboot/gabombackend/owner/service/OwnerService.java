@@ -65,7 +65,8 @@ public class OwnerService {
 
         return new OwnerResponse(
                 owner.getLoginId(),
-                owner.getStore().getName()
+                owner.getStore().getName(),
+                owner.getStore().getId()
         );
     }
 }
