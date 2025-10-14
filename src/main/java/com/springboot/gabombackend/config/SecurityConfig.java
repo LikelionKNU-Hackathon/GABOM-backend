@@ -73,16 +73,21 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/stores/*/reviews").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/stores/*/reviews").authenticated()
 
-                        // 가게 상세/검색 → 공개 허용 (permitAll이 자연스러움)
+                        // 가게 상세/검색 → 공개 허용
                         .requestMatchers(HttpMethod.GET, "/api/stores/**").permitAll()
 
                         // 챗봇
                         .requestMatchers(HttpMethod.POST, "/api/chat").authenticated()
 
-                        // 업주 전용 API (가입/로그인 제외) → OWNER 권한 필요
+                        // 업주 전용 API (가입/로그인 제외)
                         .requestMatchers("/api/owners/**").hasRole("OWNER")
 
-                        // 나머지 요청: 모두 허용
+                        // 상점 페이지 진입(/api/store), 교환(/api/stamps/exchange), 내 교환 내역(/api/users/me/rewards)은 로그인 필수
+                        .requestMatchers(HttpMethod.GET, "/api/store").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/stamps/exchange").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/users/me/rewards").authenticated()
+
+                        // 나머지 요청 전부 허용
                         .anyRequest().permitAll()
                 )
                 .build();
