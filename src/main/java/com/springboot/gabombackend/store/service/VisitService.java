@@ -10,6 +10,7 @@ import com.springboot.gabombackend.store.repository.StoreRepository;
 import com.springboot.gabombackend.store.repository.VisitRepository;
 import com.springboot.gabombackend.title.service.UserTitleService;
 import com.springboot.gabombackend.user.entity.User;
+import com.springboot.gabombackend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class VisitService {
     private final UserStampRepository userStampRepository;
     private final StampRepository stampRepository;
     private final UserTitleService userTitleService;
+    private final UserRepository userRepository;
 
     @Transactional
     public String verifyVisitAndAddStamp(Long userId, Long storeId) {
@@ -65,6 +67,11 @@ public class VisitService {
         // 스탬프 증가
         userStamp.incrementCount();
         userStampRepository.save(userStamp);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+        user.setAvailableStampCount(user.getAvailableStampCount() + 1);
+        userRepository.save(user);
 
         // 칭호 진행도 업데이트
         userTitleService.updateUserTitleProgress(User.builder().id(userId).build(), store.getCategory());

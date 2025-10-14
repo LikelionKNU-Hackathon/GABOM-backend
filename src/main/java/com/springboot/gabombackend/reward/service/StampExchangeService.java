@@ -17,15 +17,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StampExchangeService {
 
-    private final UserRepository userRepository;
     private final RewardRepository rewardRepository;
     private final UserRewardRepository userRewardRepository;
+    private final UserRepository userRepository;
 
-    // 스탬프 교환 로직
     @Transactional
     public UserReward exchangeReward(Long userId, Long rewardId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
         Reward reward = rewardRepository.findById(rewardId)
                 .orElseThrow(() -> new IllegalArgumentException("리워드를 찾을 수 없습니다."));
 
@@ -33,36 +33,25 @@ public class StampExchangeService {
             throw new IllegalArgumentException("스탬프가 부족합니다.");
         }
 
-        // 스탬프 차감
         user.setAvailableStampCount(user.getAvailableStampCount() - reward.getStampNeeded());
-
-        // 랜덤 바코드 생성
-        String barcode = UUID.randomUUID().toString().substring(0, 12);
+        userRepository.save(user);
 
         UserReward userReward = UserReward.builder()
                 .user(user)
                 .reward(reward)
-                .barcode(barcode)
+                .barcode(generateBarcode()) // 바코드 랜덤 생성
                 .build();
 
-        return userRewardRepository.save(userReward);
+        userRewardRepository.save(userReward);
+
+        return userReward;
     }
 
-    // 유저 교환 내역 조회
     public List<UserReward> getUserRewards(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
-        return userRewardRepository.findByUser(user);
+        return userRewardRepository.findByUserId(userId);
     }
 
-    // 전체 리워드 목록 조회
-    public List<Reward> getAllRewards() {
-        return rewardRepository.findAll();
-    }
-
-    // 유저 스탬프 정보 조회
-    public User getUserStampInfo(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+    private String generateBarcode() {
+        return UUID.randomUUID().toString().substring(0, 12);
     }
 }

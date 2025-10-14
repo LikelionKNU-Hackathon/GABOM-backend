@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserRewardRepository extends JpaRepository<UserReward, Long> {
     List<UserReward> findByUser(User user);
+    List<UserReward> findByUserId(Long userId);
+
 }
