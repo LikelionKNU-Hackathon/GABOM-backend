@@ -17,24 +17,31 @@ public class OwnerController {
 
     private final OwnerService ownerService;
 
-    // 업주 회원가입
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody Map<String, String> request) {
         String loginId = request.get("loginId");
         String password = request.get("password");
         String email = request.get("email");
-        Long storeId = Long.valueOf(request.get("storeId"));
 
-        Owner owner = ownerService.signUp(loginId, password, email, storeId);
+        // 사업자등록 관련 정보
+        String businessNumber = request.get("businessNumber");
+        String representativeName = request.get("representativeName");
+        String openDate = request.get("openDate");
+
+        Owner owner = ownerService.signUpWithVerification(
+                loginId, password, email,
+                businessNumber, representativeName, openDate
+        );
 
         return ResponseEntity.ok(Map.of(
-                "message", "업주 회원가입이 완료되었습니다.",
+                "message", "사업자 인증 및 회원가입이 완료되었습니다.",
+                "verified", owner.isVerified(),
                 "ownerId", owner.getId(),
-                "storeId", storeId
+                "storeId", owner.getStore().getId(),
+                "storeName", owner.getStore().getName()
         ));
     }
 
-    // 업주 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         String loginId = request.get("loginId");
@@ -48,10 +55,9 @@ public class OwnerController {
         ));
     }
 
-    // 업주 마이페이지 조회
     @GetMapping("/me")
     public ResponseEntity<OwnerResponse> getMyInfo(Authentication authentication) {
-        String loginId = authentication.getName();  // JwtTokenFilter에서 principal로 세팅됨
+        String loginId = authentication.getName();
         OwnerResponse response = ownerService.getMyInfo(loginId);
         return ResponseEntity.ok(response);
     }

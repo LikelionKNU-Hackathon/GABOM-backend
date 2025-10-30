@@ -12,6 +12,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> findByName(String name);
     Optional<Store> findByAddress(String address);
 
+    // 사업자등록번호로 매장 찾기
+    Optional<Store> findByBusinessNumber(String businessNumber);
+
+    // 사업자등록번호 존재 여부 확인
+    boolean existsByBusinessNumber(String businessNumber);
+
     // 가게명, 카테고리, 주소에서 검색
     @Query("SELECT s FROM Store s " +
             "WHERE LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
