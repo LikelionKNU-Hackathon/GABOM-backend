@@ -33,4 +33,7 @@ public class Store {
 
     @Column(nullable = false)
     private Double longitude;  // 경도
+
+    @Column(name = "business_number", length = 20, unique = true)
+    private String businessNumber;  // 사업자등록번호
 }
